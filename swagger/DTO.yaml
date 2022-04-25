@@ -1,0 +1,206 @@
+definitions:
+  
+#기본 객체
+  prize:
+    type: array
+    items:
+      type: object
+      properties:
+        rank:
+          type: int
+        price:
+          type: int    
+    example:
+    - rank: 1
+      price: 100000
+    - rank: 2
+      price: 50000
+
+  contest:
+    type: object
+    description: 대회 DTO
+    properties:
+      ID:
+        type: integer
+        minimum: 1
+      title:
+        type: string
+      content:
+        type: string
+      startdate:
+        type: string 
+        example: timestamp
+      duedate: 
+        type: string
+        example: timestmap
+      host:
+        type: string 
+      profile: 
+        type: string
+      isHost:
+        type: boolean
+      prize:
+        $ref: '#/definitions/prize'
+      URL:
+        type: array
+        items: 
+          type: string
+          
+  participant:
+    type: object
+    description: 참여자 DTO
+    properties: 
+      ID:
+        type: integer
+        minimum: 1
+      profile:
+        type: string
+      nickname:
+        type: string
+      likes:
+        type: integer
+        minimum: 0
+      content:
+        type: string
+      URL:
+        type: array
+        items: 
+          type: string
+
+# 해더
+  header:
+    type: string
+    format: JsonWebToken
+
+#req, res 객체
+  signinRequest:
+    type: object
+    description: 로그인
+    properties:
+      id:
+        type: string
+        example: test
+      pw:          
+        type: string  
+        example: test  
+
+  signupRequest:
+    type: object
+    description: 개인정보
+    properties:
+      id:
+        type: string
+      pw:
+        type: string
+      phonenum:
+        type: string
+      nickname:
+        type: string
+      
+  idCheckRequest:
+    type: object
+    description: id 확인
+    properties: 
+      id:
+        type: string
+      
+  chargeRequest:
+    type: object
+    description: 충전
+    properties: 
+      cash:
+        type: integer
+        example: 10000
+
+  createContestRequest:
+    type: object
+    description: 대회생성을 위한 DTO
+    properties:
+      title:
+        type: string
+      content:
+        type: string
+      startdate:
+        type: string
+        example: timestamp
+      duedate:
+        type: string
+        example: timestamp
+      prize:
+        $ref: '#/definitions/prize'
+      
+  editContestRequest:
+    type: object
+    description: 대회 수정을 위한 DTO
+    properties:
+      title:
+        type: string
+      content: 
+        type: string 
+      startdate:
+        type: string
+        example: timestamp
+      duedate:
+        type: string
+        example: timestamp
+        
+
+  findAllContestResponse:
+    type: array
+    items:
+      $ref: '#/definitions/contest'
+
+  findOneContestResponse:
+    $ref: '#/definitions/contest'
+
+  putPrizeRequest:
+    type: array
+    items:
+      object:
+      properties:
+        rank:
+          type: integer
+          minimum: 1
+        participantID:
+          type: integer
+          minimum: 1
+
+  getPrizeResponse:
+    type: array
+    items:
+      object:
+      properties:
+        price:
+          type: integer
+          example: 100000
+        rank:
+          type: integer
+          minimum: 1
+        participant_ID:
+          type: integer
+          minimum: 1
+        nickname:
+          type: string
+        profile:
+          type: string
+
+  getProfileResponse:
+    type: object
+    properties:
+      nickname:
+        type: string
+      cash:
+        type: integer 
+      profile:
+        type: string
+
+  createParticipantRequest:
+    type: object
+    properties:
+      content:
+        type: string
+
+  findAllParticipantRequest:
+    type: array
+    items:
+      $ref: '#definitions/participant'
